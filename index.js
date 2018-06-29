@@ -1,10 +1,10 @@
 const { ApolloServer, gql } = require('apollo-server');
-const axios = require('axios');
+const axios = require('axios')
 
 // Type definitions define the "shape" of your data and specify
 // which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
-  type Match {
+  type Match @cacheControl(maxAge: 60) {
     id: Int
     start_date: String
     round: Int
@@ -16,17 +16,17 @@ const typeDefs = gql`
     competition: String
   }
 
-  type Team {
+  type Team @cacheControl(maxAge: 5000) {
     id: Int
     name: String
     image_url: String
     stats_id: Int
     description: String
-    social: Social
+    social: Social 
     players: [Player]
   }
 
-  type Social {
+  type Social @cacheControl(maxAge: 5000) {
     facebook: String
     twitter: String
     twitch: String
@@ -34,14 +34,14 @@ const typeDefs = gql`
     youtube: String
   }
 
-  type Player {
+  type Player @cacheControl(maxAge: 5000) {
     id: Int
     name: String
     nick: String
     image_url: String
   }
 
-  type Ladder {
+  type Ladder @cacheControl(maxAge: 60) {
     id: Int
     rank: Int
     team: Team
@@ -115,7 +115,6 @@ const resolvers = {
   },
   Team: {
     description: async (obj, args, context, info) => {
-        console.log(obj, args, context, info)
         let { data: team } = await axios.get(`http://www.lvp.es/api/superliga/lol/temporada/team/${obj.id}`)
         return team.description
     },
@@ -133,7 +132,16 @@ const resolvers = {
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    engine: {
+        apiKey: "service:SantiMA10:T0oJf22ydbJvmZGzVLXLRA"
+    }, 
+    introspection: true,
+    cacheControl: true,
+    tracing: true,
+});
 
 // This `listen` method launches a web-server.  Existing apps
 // can utilize middleware options, which we'll discuss later.

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/HazMas/graphql.esportscalendar.app#readme",
   "dependencies": {
+    "apollo-engine": "^1.1.2",
     "apollo-server": "^2.0.0-rc.5",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
