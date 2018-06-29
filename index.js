@@ -67,67 +67,58 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     matches: async (_, {game, competition}) => {
-        const { data: matches } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/matches`)
-        return matches.map(match => {
-            return {
-                game,
-                competition,
-                ...match
-            }
-        })
+        return getList(game, competition, 'matches')
     },
     match: async (_, {game, competition, matchId}) => {
-        const { data: match } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/match/${matchId}`)
-        return {
-            game,
-            competition,
-            ...match
-        }
+        return getItem(game, competition, matchId, 'match')
     },
     teams: async (_, {game, competition}) => {
-        const { data: teams } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/teams`)
-        return teams.map(team => {
-            return {
-                game,
-                competition,
-                ...team
-            }
-        })
+        return getList(game, competition, 'teams')
     },
     team: async (_, {game, competition, teamId}) => {
-        const { data: team } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/team/${teamId}`)
-        return {
-            game,
-            competition,
-            ...team
-        }
+        return getItem(game, competition, teamId, 'team')
     },
     ladders: async (_, {game, competition}) => {
-        const { data: ladders } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/ladder`)
-        return ladders.map(ladder => {
-            return {
-                game,
-                competition,
-                ...ladder
-            }
-        })
+        return getList(game, competition, 'ladder')
     },
   },
   Team: {
-    description: async (obj, args, context, info) => {
-        let { data: team } = await axios.get(`http://www.lvp.es/api/superliga/lol/temporada/team/${obj.id}`)
-        return team.description
+    description: async (obj) => {
+        return getPropertyOfTeam(obj.id, 'description')
     },
     players: async (obj) => {
-        let { data: team } = await axios.get(`http://www.lvp.es/api/superliga/lol/temporada/team/${obj.id}`)
-        return team.players
+        return getPropertyOfTeam(obj.id, 'players')
     },
     social: async (obj) => {
-        let { data: team } = await axios.get(`http://www.lvp.es/api/superliga/lol/temporada/team/${obj.id}`)
-        return team.social
+        return getPropertyOfTeam(obj.id, 'social')
     }
   }
 };
+
+const getList = async (game, competition, path) => {
+    const { data: list } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/${path}`)
+        return list.map(item => {
+            return {
+                game,
+                competition,
+                ...item
+            }
+        })
+}
+
+const getItem = async (game, competition, itemId, path) => {
+    const { data: item } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/${path}/${itemId}`)
+        return {
+            game,
+            competition,
+            ...item
+        }
+}
+
+const getPropertyOfTeam = async (teamId, propertyName) => {
+    const team = await getItem('lol', 'superliga', teamId, 'team')
+    return team[propertyName]
+}
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
