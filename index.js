@@ -140,7 +140,7 @@ const server = new ApolloServer({
     }, 
     introspection: true,
     cacheControl: true,
-    tracing: process.env.MODE !== 'production'
+    tracing: process.env.NODE_ENV !== 'production'
 });
 
 // This `listen` method launches a web-server.  Existing apps
