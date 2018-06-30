@@ -1,17 +1,19 @@
 {
   "name": "api-esports-graphql",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "deploy": "gcloud app deploy",
     "watch": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HazMas/graphql.esportscalendar.app.git"
+    "url": "https://github.com/HazMas/graphql.esportscalendar.app.git"
   },
   "keywords": [],
   "author": "Santiago M.A. <santiagomartinagra@gmail.com>",
@@ -30,6 +32,10 @@
     "graphql-tools": "^3.0.4"
   },
   "devDependencies": {
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "semantic-release": "^15.6.0"
+  },
+  "publishConfig": {
+    "access": "restricted"
   }
 }
