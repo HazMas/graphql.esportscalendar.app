@@ -68,6 +68,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    allMatches: [Match]
     matches(game: GAME! competition: COMPETITION!): [Match]
     match(game: GAME! competition: COMPETITION! matchId: Int!): Match
     teams(game: GAME! competition: COMPETITION!): [Team]
@@ -80,6 +81,24 @@ const typeDefs = gql`
 // schema. 
 const resolvers = {
   Query: {
+    allMatches: async () => {
+        const competition = 'superliga'
+        const path = 'matches'
+        const matches = await Promise.all([
+            getList('lol', competition, path),
+            getList('cod', competition, path),
+            getList('csgo', competition, path)
+        ])
+        .then((responses) => {
+            return [
+                ...responses[0],
+                ...responses[1],
+                ...responses[2],
+            ]
+        })
+
+        return matches
+    },
     matches: async (_, {game, competition}) => {
         return getList(game, competition, 'matches')
     },
