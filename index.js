@@ -4,6 +4,16 @@ const axios = require('axios')
 // Type definitions define the "shape" of your data and specify
 // which ways the data can be fetched from the GraphQL server.
 const typeDefs = gql`
+  enum GAME {
+    LOL
+    COD
+    CSGO
+  }
+
+  enum COMPETITION {
+    SUPERLIGA
+  }
+
   type Match @cacheControl(maxAge: 60) {
     id: Int
     start_date: String
@@ -12,8 +22,8 @@ const typeDefs = gql`
     team_b: Team
     result_a: Int
     result_b: Int
-    game: String
-    competition: String
+    game: GAME
+    competition: COMPETITION
   }
 
   type Team @cacheControl(maxAge: 5000) {
@@ -24,6 +34,8 @@ const typeDefs = gql`
     description: String
     social: Social 
     players: [Player]
+    game: GAME
+    competition: COMPETITION
   }
 
   type Social @cacheControl(maxAge: 5000) {
@@ -51,14 +63,16 @@ const typeDefs = gql`
     streak: Int
     diff_rounds: Int
     points: Int
+    game: GAME
+    competition: COMPETITION
   }
 
   type Query {
-    matches(game: String competition: String): [Match]
-    match(game: String competition: String matchId: Int): Match
-    teams(game: String competition: String): [Team]
-    team(game: String competition: String teamId: Int): Team
-    ladders(game: String competition: String): [Ladder]
+    matches(game: GAME! competition: COMPETITION!): [Match]
+    match(game: GAME! competition: COMPETITION! matchId: Int!): Match
+    teams(game: GAME! competition: COMPETITION!): [Team]
+    team(game: GAME! competition: COMPETITION! teamId: Int!): Team
+    ladders(game: GAME! competition: COMPETITION!): [Ladder]
   }
 `;
 
@@ -92,6 +106,14 @@ const resolvers = {
     social: async (obj) => {
         return getPropertyOfTeam(obj.id, 'social')
     }
+  },
+  GAME: {
+    LOL: 'lol',
+    COD: 'cod',
+    CSGO: 'csgo'
+  },
+  COMPETITION: {
+    SUPERLIGA: 'superliga'
   }
 };
 
