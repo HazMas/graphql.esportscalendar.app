@@ -3,3 +3,7 @@ automatic_scaling:
   max_idle_instances: 1  # default value
   min_pending_latency: automatic  # default value
   max_pending_latency: 30ms
+env_variables:
+  REDIS_HOST: 'redis-10636.c1.us-central1-2.gce.cloud.redislabs.com'
+  REDIS_PORT: 10636
+  REDIS_KEY: '0dBSgg77WRMpVUqmfYSMXq3Wtz9vfOVc'

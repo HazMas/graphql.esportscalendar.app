@@ -1,5 +1,18 @@
 const { ApolloServer, gql } = require('apollo-server');
 const axios = require('axios')
+const redis = require('redis')
+
+const client = redis.createClient(
+    process.env.REDIS_PORT,
+    process.env.REDIS_HOST,
+    {
+        'auth_pass': process.env.REDIS_KEY,
+        'return_buffers': true
+    }
+).on('error', (err) => console.error('ERR:REDIS:', err));
+
+const {promisify} = require('util');
+const getAsync = promisify(client.get).bind(client);
 
 // Type definitions define the "shape" of your data and specify
 // which ways the data can be fetched from the GraphQL server.
@@ -8,6 +21,7 @@ const typeDefs = gql`
     LOL
     COD
     CSGO
+    CLASH
   }
 
   enum COMPETITION {
@@ -87,7 +101,8 @@ const resolvers = {
         const matches = await Promise.all([
             getList('lol', competition, path),
             getList('cod', competition, path),
-            getList('csgo', competition, path)
+            getList('csgo', competition, path),
+            getList('clash', competition, path)
         ])
         .then((responses) => {
             return [
@@ -100,10 +115,10 @@ const resolvers = {
         return matches
     },
     matches: async (_, {game, competition}) => {
-        return getList(game, competition, 'matches')
+        return getList(game, competition, 'matches', 60)
     },
     match: async (_, {game, competition, matchId}) => {
-        return getItem(game, competition, matchId, 'match')
+        return getItem(game, competition, matchId, 'match', 60)
     },
     teams: async (_, {game, competition}) => {
         return getList(game, competition, 'teams')
@@ -129,31 +144,44 @@ const resolvers = {
   GAME: {
     LOL: 'lol',
     COD: 'cod',
-    CSGO: 'csgo'
+    CSGO: 'csgo',
+    CLASH: 'clash',
   },
   COMPETITION: {
     SUPERLIGA: 'superliga'
   }
 };
 
-const getList = async (game, competition, path) => {
-    const { data: list } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/${path}`)
-        return list.map(item => {
-            return {
-                game,
-                competition,
-                ...item
-            }
-        })
-}
+const getList = async (game, competition, path, cacheTime = 600) => {
+    let list = JSON.parse(await getAsync(`${game},${competition},${path}`))
 
-const getItem = async (game, competition, itemId, path) => {
-    const { data: item } = await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/${path}/${itemId}`)
+    if (!list) {
+        list = (await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/${path}`)).data
+        client.setex(`${game},${competition},${path}`, cacheTime, JSON.stringify(list));
+    }
+
+    return list.map(item => {
         return {
             game,
             competition,
             ...item
         }
+    })
+}
+
+const getItem = async (game, competition, itemId, path, cacheTime = 600) => {
+    let item = JSON.parse(await getAsync(`${game},${competition},${path},${itemId}`))
+
+    if (!item) {
+        item = (await axios.get(`http://www.lvp.es/api/${competition}/${game}/temporada/${path}/${itemId}`)).data
+        client.setex(`${game},${competition},${path},${itemId}`, cacheTime, JSON.stringify(item));
+    }
+
+    return {
+        game,
+        competition,
+        ...item
+    }
 }
 
 const getPropertyOfTeam = async (teamId, propertyName) => {
