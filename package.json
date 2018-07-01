@@ -5,9 +5,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "deploy": "gcloud app deploy",
-    "watch": "nodemon index.js",
+    "babel-node": "babel-node --presets=stage-2",
+    "build": "npx babel src -d lib",
+    "start": "node lib/index.js",
+    "deploy": "npm run build && gcloud app deploy",
+    "watch": "nodemon --exec npm run babel-node -- ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "semantic-release": "semantic-release"
   },
@@ -33,6 +35,9 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
     "nodemon": "^1.17.5",
     "semantic-release": "^15.6.0"
   },
