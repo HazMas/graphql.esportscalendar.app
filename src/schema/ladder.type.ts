@@ -1,7 +1,6 @@
-const Game = require('./game.enum')
-const Competition = require('./competition.enum')
+import { gql } from "apollo-server";
 
-export const Ladder = `
+export const Ladder = gql`
 type Ladder @cacheControl(maxAge: 60) {
     id: Int
     rank: Int

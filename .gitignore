@@ -63,5 +63,5 @@ typings/
 # Firebase
 service-account.json
 
-# Babel
-lib
+# TypeScript
+dist

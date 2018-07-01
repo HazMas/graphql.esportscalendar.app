@@ -16,4 +16,10 @@
 # Node.js dependencies:
 node_modules/
 
+# Yarn
+yarn-error.log
+
+# npm
+package-lock.json
+
 src/

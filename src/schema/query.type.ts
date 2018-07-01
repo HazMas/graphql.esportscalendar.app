@@ -1,10 +1,6 @@
-const Match = require('./match.type')
-const Team = require('./team.type')
-const Ladder = require('./ladder.type')
-const Game = require('./game.enum')
-const Competition = require('./competition.enum')
+import { gql } from "apollo-server";
 
-export const Query = `
+export const Query = gql`
 type Query {
     allMatches: [Match]
     matches(game: GAME! competition: COMPETITION!): [Match]

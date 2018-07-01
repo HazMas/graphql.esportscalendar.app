@@ -1,9 +1,6 @@
-const Game = require('./game.enum')
-const Competition = require('./competition.enum')
-const Social = require('./social.type')
-const Player = require('./Player.type')
+import { gql } from "apollo-server";
 
-export const Team = `
+export const Team = gql`
 type Team @cacheControl(maxAge: 5000) {
     id: Int
     name: String

@@ -5,11 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "babel-node": "babel-node --presets=stage-2",
-    "build": "npx babel src -d lib",
-    "start": "node lib/index.js",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "deploy": "npm run build && gcloud app deploy",
-    "watch": "nodemon --exec npm run babel-node -- ./src/index.js",
+    "watch": "nodemon src/index.js --watch src --exec ts-node",
     "test": "echo \"Error: no test specified\" && exit 1",
     "semantic-release": "semantic-release"
   },
@@ -18,7 +17,7 @@
     "url": "https://github.com/HazMas/graphql.esportscalendar.app.git"
   },
   "keywords": [],
-  "author": "Santiago M.A. <santiagomartinagra@gmail.com>",
+  "author": "Santi M.A. <santiagomartinagra@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HazMas/graphql.esportscalendar.app/issues"
@@ -35,11 +34,11 @@
     "redis": "^2.8.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
     "nodemon": "^1.17.5",
-    "semantic-release": "^15.6.0"
+    "semantic-release": "^15.6.0",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
   },
   "publishConfig": {
     "access": "restricted"

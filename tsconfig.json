@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es6", 
+      "dom", 
+      "esnext.asynciterable"
+    ],
+    "module": "commonjs",
+    "noImplicitReturns": false,
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": false,
+    "strictFunctionTypes": false,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "skipLibCheck": true,
+  },
+  "compileOnSave": true,
+  "include": ["src"]
+}

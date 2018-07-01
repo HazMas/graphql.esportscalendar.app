@@ -1,4 +1,4 @@
-import { getList } from "../util/util";
+import { getList, getItem } from "../util/util";
 
 export const Query = {
     allMatches: async () => {
