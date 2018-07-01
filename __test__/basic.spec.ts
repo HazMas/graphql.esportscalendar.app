@@ -1,3 +1,6 @@
+import { Basic } from '../src/basic'
+
 test('basic', () => {
-    expect(0).toBe(0);
+    let basic = new Basic()
+    expect(basic.test()).toBe(0);
 });
