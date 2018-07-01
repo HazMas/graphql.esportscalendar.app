@@ -10,6 +10,7 @@
     "deploy": "npm run build && gcloud app deploy",
     "watch": "nodemon src/index.js --watch src --exec ts-node",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "semantic-release": "semantic-release"
   },
