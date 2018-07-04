@@ -57,6 +57,7 @@ jobs:
           command: |
             gcloud config set project e-sports-info
             gcloud app deploy
+          working_directory: /home/circleci/graphql
 
 workflows:
   version: 2
