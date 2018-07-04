@@ -37,7 +37,7 @@ jobs:
           command: |
             npm run build
       - persist_to_workspace:
-          root: /home/circleci/graphql
+          root: /home/circleci
           paths:
               - graphql
   deploy:
