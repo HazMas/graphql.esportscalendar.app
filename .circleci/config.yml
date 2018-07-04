@@ -25,7 +25,8 @@ jobs:
             npm run test:coverage
             ./cc-test-reporter after-build -t lcov -p coverage --exit-code $?
             npx codecov
-  deploy:
+  build:
+    working_directory: ~/project/graphql
     docker:
       - image: circleci/node:8
     steps:
@@ -35,6 +36,17 @@ jobs:
           name: Build 
           command: |
             npm run build
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+              - graphql
+  deploy:
+    working_directory: ~/project/graphql
+    docker:
+      - image: google/cloud-sdk:alpine
+    steps:
+      - attach_workspace:
+          at: ~/project
       - run:
           name: Authenticate with Google Cloud
           command: |
@@ -51,14 +63,22 @@ workflows:
   release:
     jobs:
       - test
+      - build
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
+            - build
             - test
           filters:
             branches:
               only: master
       - release:
           requires:
+            - build
             - test
             - deploy
           filters:
