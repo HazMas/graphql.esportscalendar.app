@@ -26,7 +26,7 @@ jobs:
             ./cc-test-reporter after-build -t lcov -p coverage --exit-code $?
             npx codecov
   build:
-    working_directory: ~/project/graphql
+    working_directory: ~/home/project/graphql
     docker:
       - image: circleci/node:8
     steps:
@@ -41,17 +41,17 @@ jobs:
           paths:
               - graphql
   deploy:
-    working_directory: ~/project/graphql
+    working_directory: ~/home/project/graphql
     docker:
       - image: google/cloud-sdk:alpine
     steps:
       - attach_workspace:
-          at: ~/project
+          at: ~/home/project
       - run:
           name: Authenticate with Google Cloud
           command: |
-            echo $GCLOUD_KEY_JSON > /home/circleci/.gcloud-key
-            gcloud auth activate-service-account --key-file=/home/circleci/.gcloud-key
+            echo $GCLOUD_KEY_JSON > ~/home/.gcloud-key
+            gcloud auth activate-service-account --key-file=~/home/.gcloud-key
       - run:
           name: Deploy to Google App Engine
           command: |
