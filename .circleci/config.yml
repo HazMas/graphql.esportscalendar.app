@@ -63,7 +63,7 @@ workflows:
   release:
     jobs:
       - test
-      - build
+      - build:
           requires:
             - test
           filters:
