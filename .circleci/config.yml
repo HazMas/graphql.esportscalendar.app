@@ -55,8 +55,10 @@ jobs:
       - run:
           name: Deploy to Google App Engine
           command: |
+            pwd
+            ls -la
             gcloud config set project e-sports-info
-            gcloud app deploy
+            gcloud app deploy --quiet
           working_directory: /home/circleci/graphql
 
 workflows:
