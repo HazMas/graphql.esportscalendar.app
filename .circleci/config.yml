@@ -46,7 +46,7 @@ jobs:
       - image: google/cloud-sdk:alpine
     steps:
       - attach_workspace:
-          at: ~/home/project
+          at: /home/circleci/graphql
       - run:
           name: Authenticate with Google Cloud
           command: |
