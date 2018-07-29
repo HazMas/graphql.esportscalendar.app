@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server'
-import { typeDefs } from './schema'
 import { resolvers } from './resolver'
+import { typeDefs } from './domain'
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
