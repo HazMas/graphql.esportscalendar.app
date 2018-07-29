@@ -1,6 +1,6 @@
-import { getList, getItem } from "../util/util";
-import { matchesLvpResolver, matchLvpResolver, allMatchesLvpResolver } from "../domain/match/lvp/match.lvp.resolver";
-import { teamsLvpResolver, teamLvpResolver } from "../domain/team/lvp/team.lvp.resolver";
+import { matchesLvpResolver, matchLvpResolver, allMatchesLvpResolver } from "../match/lvp/match.lvp.resolver";
+import { teamsLvpResolver, teamLvpResolver } from "../team/lvp/team.lvp.resolver";
+import { getList } from "../../util/util";
 
 export const Query = {
     allMatches: async () => {

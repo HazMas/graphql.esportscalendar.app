@@ -1,4 +1,4 @@
-import { teamLvpResolver } from "../domain/team/lvp/team.lvp.resolver";
+import { teamLvpResolver } from "./lvp/team.lvp.resolver";
 
 export const Team = {
     async description ({id, game}) {

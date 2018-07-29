@@ -1,14 +1,14 @@
 import { ApolloServer } from 'apollo-server'
-import { resolvers } from './resolver'
-import { typeDefs } from './domain'
+import { resolvers } from './domain/index.resolvers';
+import { typeDefs } from './domain/index.types';
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    typeDefs: typeDefs,
+    resolvers: resolvers,
     engine: {
         apiKey: "service:SantiMA10:T0oJf22ydbJvmZGzVLXLRA"
     }, 
