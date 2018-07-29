@@ -1,18 +1,13 @@
-import { getItem } from "../util/util";
+import { teamLvpResolver } from "../domain/team/lvp/team.lvp.resolver";
 
 export const Team = {
-    async description (obj) {
-        return await getPropertyOfTeam(obj.id, 'description')
+    async description ({id, game}) {
+        return (await teamLvpResolver(game, id)).description
     },
-    async players (obj) {
-        return await getPropertyOfTeam(obj.id, 'players')
+    async players ({id, game}) {
+        return (await teamLvpResolver(game, id)).players
     },
-    async social (obj) {
-        return await getPropertyOfTeam(obj.id, 'social')
-    }
-}
-
-const getPropertyOfTeam = async (teamId, propertyName) => {
-    const team = await getItem('lol', 'superliga', teamId, 'team')
-    return team[propertyName]
+    async social ({id, game}) {
+        return (await teamLvpResolver(game, id)).social
+    },
 }

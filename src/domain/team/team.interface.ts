@@ -6,8 +6,8 @@ export interface ITeam {
     image_url: String
     stats_id: number
     description: String
-    //social: Social 
-    //players: [Player]
+    social: any
+    players: any
     game: String
     competition: String
 }

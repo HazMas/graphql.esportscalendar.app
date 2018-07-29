@@ -16,10 +16,10 @@ export const getTeam = (game: string, id: number) => {
     const url = `${game}/temporada/team/${id}`
     return client
         .get(url)
-        .then(({data}) => data.map((team) => teamTransform(team, game)))
+        .then(({data}) => teamTransform(data, game))
 }
 
-const teamTransform = (team: ITeam, game: string): ITeam => {
+const teamTransform = (team, game: string): ITeam => {
     return {
         ...team,
         game,
