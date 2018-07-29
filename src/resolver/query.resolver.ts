@@ -1,30 +1,15 @@
 import { getList, getItem } from "../util/util";
+import { matchesLvpResolver, matchLvpResolver, allMatchesLvpResolver } from "../domain/match/lvp/match.lvp.resolver";
 
 export const Query = {
     allMatches: async () => {
-        const competition = 'superliga'
-        const path = 'matches'
-        const matches = await Promise.all([
-            getList('lol', competition, path),
-            getList('cod', competition, path),
-            getList('csgo', competition, path),
-            getList('clash', competition, path)
-        ])
-        .then((responses) => {
-            return [
-                ...responses[0],
-                ...responses[1],
-                ...responses[2],
-            ]
-        })
-
-        return matches
+        return allMatchesLvpResolver()
     },
     matches: async (_, {game, competition}) => {
-        return getList(game, competition, 'matches', 60)
+        return matchesLvpResolver(game)
     },
     match: async (_, {game, competition, matchId}) => {
-        return getItem(game, competition, matchId, 'match', 60)
+        return matchLvpResolver(game, matchId)
     },
     teams: async (_, {game, competition}) => {
         return getList(game, competition, 'teams')

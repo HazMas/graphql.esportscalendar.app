@@ -1,6 +1,6 @@
 import { gql } from "apollo-server";
 
-export const Match = gql`
+export const MatchSchema = gql`
 type Match @cacheControl(maxAge: 60) {
     id: Int
     start_date: String
@@ -11,4 +11,5 @@ type Match @cacheControl(maxAge: 60) {
     result_b: Int
     game: GAME
     competition: COMPETITION
+    status: String
 }`
