@@ -1,16 +1,15 @@
-import { gql } from "apollo-server";
+import { ITeam } from "../team/team.interface";
 
-export const Ladder = gql`
-type Ladder @cacheControl(maxAge: 60) {
-    id: Int
-    rank: Int
-    team: Team
-    win: Int
-    loss: Int
-    draw: Int
-    streak: Int
-    diff_rounds: Int
-    points: Int
-    game: GAME
-    competition: COMPETITION
-}`
+export interface ILadder {
+    id: number
+    rank: number
+    team: ITeam
+    win: number
+    loss: number
+    draw: number
+    streak: number
+    diff_rounds: number
+    points: number
+    game: string
+    competition: string
+}

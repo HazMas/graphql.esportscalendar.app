@@ -1,6 +1,6 @@
 import { matchesLvpResolver, matchLvpResolver, allMatchesLvpResolver } from "../match/lvp/match.lvp.resolver";
 import { teamsLvpResolver, teamLvpResolver } from "../team/lvp/team.lvp.resolver";
-import { getList } from "../../util/util";
+import { ladderLvpResolver } from "../ladder/lvp/ladder.lvp.resolver";
 
 export const Query = {
     allMatches: async () => {
@@ -18,7 +18,7 @@ export const Query = {
     team: async (_, {game, teamId}) => {
         return teamLvpResolver(game, teamId)
     },
-    ladders: async (_, {game, competition}) => {
-        return getList(game, competition, 'ladder')
+    ladders: async (_, {game}) => {
+        return ladderLvpResolver(game)
     }
 }
