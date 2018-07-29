@@ -1,7 +1,6 @@
 import Axios from "axios";
 
 import { IMatch } from "../match.interface";
-import { response } from "../../../../node_modules/@types/spdy";
 
 const client = Axios.create({
     baseURL: "https://www.lvp.es/api/superliga/"
