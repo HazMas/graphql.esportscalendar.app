@@ -1,4 +1,4 @@
-import { ITeam } from "../../api/model/ITeam";
+import { ITeam } from "../team/team.interface";
 
 export interface IMatch {
   id: string;
